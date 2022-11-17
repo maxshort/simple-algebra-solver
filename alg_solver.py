@@ -36,6 +36,9 @@ class Term:
                 new_var_name = "".join(new_vars)
         return Term(new_coeff, new_var_name)
 
+    def __eq__(self, other):
+        return (self.coeff == other.coeff) and (self.var_name == other.var_name)
+
     def __repr__(self):
         #TODO: Replace with better str format
         var_s = self.var_name if self.var_name is not None else ""
@@ -218,10 +221,6 @@ def consume_parenthesized(raw):
 # rest_of_raw should either start with an operator or be an empty string
 def consume_term(raw):
     parens_contents, rest = consume_parenthesized(raw)
-    #TODO: Be sure to pay attention to "parens on backside"
-    # e.g. (3 + x)(3 + x)
-    # TODO: What about infintely recursivng parens:
-    # 3(3)(4)(5)
     if parens_contents is not None:
         node_first_part = parse_expression(parens_contents[1:-1])
         # Check if there's another term -- it will recursively get
@@ -324,33 +323,3 @@ def parse_expression(s):
     terms_and_operators = reduce_all_mult_terms(terms_and_operators)
     terms_and_operators = reduce_all_addsub_terms(terms_and_operators)
     return terms_and_operators[0]
-
-
-#TODO: Test cases
-# solve_for_var_name([Term(1, 'x')], [Term(5)], 'x')
-# solve_for_var_name([Term(1, 'x'), Term(5)], [Term(7)], 'x')
-#MAke sure to test subtraction
-#solve_for_var_name([Term(-1, 'x'), Term(5)], [Term(7)], 'x')
-#solve_for_var_name([Term(1, 'x'), Term(-5)], [Term(7)], 'x')
-#solve_for_var_name([Term(2, 'x'), Term(5)], [Term(7)], 'x')
-#solve_for_var_name([Term(7, 'x'), Term(2)], [Term(5, 'x'), Term(3)], 'x')
-#solve_for_var_name([Term(7, 'x'), Term(2), Term(3)], [Term(5, 'x'), Term(3), Term(3)]
-#Term(3, "x") * Term(4)
-# Term(3, "x") * Term(4, "y")
-#12xy
-# Should raise: Term(3, "x") * Term(4, "x")
-# Term(3) * Term(4)
-# Term(3) * Term(-1)
-# Equation it can solve
-# lhs = AddingTermNode(
-##	tn(34.96885, "x"),
-##	MultiplyingTermNode(
-##		tn(36.96590),
-##		SubtractingTermNode(
-##			tn(1),
-##			tn(1, "x"))))
-##>>> rhs = tn(35.453)
-# Answer is [0.7575674119326001]
-#
-# parse_expression("(3x)(2)(9)")
-#[54x]
