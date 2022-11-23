@@ -58,15 +58,13 @@ class TestMultiplication(unittest.TestCase):
 
 class TestParseAndSolve(unittest.TestCase):
     def test1(self):
-        lhs = parse_expression("34.96885x + 36.96590 * (1 - x)")
-        rhs = parse_expression("35.453")
-        actual = solve_for_var_name(lhs.produce_term_list(), rhs.produce_term_list(), 'x')
+        actual = parse_and_solve_equation(
+            "34.96885x + 36.96590 * (1 - x) = 35.453",
+            "x")
         self.assertEqual(actual[0].coeff, 0.7575674119326001)
 
     def test2(self):
-        lhs = parse_expression("(3x)(2)(9)")
-        rhs = parse_expression("27")
-        actual = solve_for_var_name(lhs.produce_term_list(), rhs.produce_term_list(), 'x')
+        actual = parse_and_solve_equation("(3x)(2)(9) = 27", "x")
         self.assertEqual(actual[0].coeff, 0.5)
 
     @unittest.skip(

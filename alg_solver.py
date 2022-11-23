@@ -156,9 +156,15 @@ def solve_for_var_name(lhs, rhs, var_name):
 
 # Returns lhs, rhs MAYBE ALSO RETURNS "vars" ???
 # Only doing actual equations right now...not pure expressions...
-def parse_equation(s):
+def parse_and_solve_equation(s, var_name):
     # Check for 1 equals, after that we defer to parse_expr
-    pass
+    if s.count("=") != 1:
+        raise ValueError("Equation must have exactly one equals sign.")
+    raw = s.split("=")
+    lhs = parse_expression(raw[0])
+    rhs = parse_expression(raw[1])
+    return solve_for_var_name(
+        lhs.produce_term_list(), rhs.produce_term_list(), var_name)
 
 def _break_out_match(m, orig_string):
     return (orig_string[m.start():m.end()],
