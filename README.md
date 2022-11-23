@@ -2,7 +2,7 @@
 
 Hobby project, not fit for production use, messy code. No guarantees of correctness.
 
-Parses simple expression, solves some algebra equations. Eventual goal is parse+solve.
+Parses simple expressions, solves some algebra equations. Eventual goal is parse+solve.
 
 Does not support divsion for now.
 
