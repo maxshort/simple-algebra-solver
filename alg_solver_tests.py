@@ -69,4 +69,12 @@ class TestParseAndSolve(unittest.TestCase):
         actual = solve_for_var_name(lhs.produce_term_list(), rhs.produce_term_list(), 'x')
         self.assertEqual(actual[0].coeff, 0.5)
 
+    @unittest.skip(
+        "Known failure -- probably need to not consume parens 2x in consume_term")
+    def test_only_var_in_paren(self):
+        lhs = parse_expression("3(x)")
+        rhs = parse_expression("6")
+        actual = solve_for_var_name(lhs.produce_term_list(), rhs.produce_term_list(), "x")
+        self.assertEqual(actual[0].coeff, 2)
+
 unittest.main()
